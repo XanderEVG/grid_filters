@@ -1,0 +1,33 @@
+{
+    "name": "xanderevg/grid_filters",
+    "description": "Grid filtering and sorting library for Laravel & Symfony. Dynamically apply user-defined filters (text, number, date, ranges) and sorting rules to Eloquent/Doctrine queries with unified API. Supports multi-field filters and complex UI-driven data grids.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "grid filters",
+        "laravel",
+        "symfony",
+        "eloquent",
+        "doctrine",
+        "query builder",
+        "sorting",
+        "dynamic filters",
+        "data grids"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Xanderevg\\GridFiltersLibrary\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "XanderEVG",
+            "email": "xanderEVG@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.4.0",
+        "ext-json": "*"
+    }
+}
