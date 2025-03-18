@@ -40,3 +40,80 @@ MIT License.
 
 #### GitHub: https://github.com/xanderevg/grid_filters
 
+
+### Примеры использования
+1. Создание фабрики
+- `$baseFactory = new FilterFactory(); // Бибилиотечные фильтры`
+- `$baseFactory = new FilterFactory('App\BaseFilters'); // BaseFilters`
+- `$customFactory = (new FilterFactory())->addNamespace('App\CustomFilters'); //Библиотечные + CustomFilters, приоритет у библиотечных`
+- `$customFactory = (new FilterFactory('App\BaseFilters'))->addNamespace('App\CustomFilters'); //BaseFilters + CustomFilters, приоритет у BaseFilters`
+
+
+2. Интеграция с DI-контейнерами Laravel:
+```
+// В ServiceProvider
+$this->app->singleton(FilterFactory::class, function() {
+    return (new FilterFactory(config('filters.base_namespace')))->addNamespace(config('filters.custom_namespace'));
+});
+```
+
+3.  Пример использования
+```
+use FilterLibrary\Laravel\Query\EloquentBuilderAdapter;
+use FilterLibrary\Symfony\Query\DoctrineQueryBuilderAdapter;
+use FilterLibrary\Core\FilterFactory;
+
+// Инициализация фабрики
+$adapterLaravel = new EloquentBuilderAdapter($eloquentBuilder);
+$adapterSymfony = new DoctrineQueryBuilderAdapter($doctrineQueryBuilder);
+
+$factory = new FilterFactory('Xanderevg\GridFilters\Filters');
+$factory->addNamespace('App\CustomFilters');
+
+// Использование
+$filterElements = [
+    new FilterElement('column_1', 'value1', 'eq', 'string'),
+    new FilterElement('column_2', 'value2', 'eq', 'string'),
+];
+
+try {   
+    foreach ($filterElements as $filterElement) {
+            $filter = FilterFactory::getFilter($adapterLaravel, $filterElement);
+            $adapterLaravel = $filter->add();
+    }
+} catch (FilterNotFoundException $e) {
+    // Обработка ошибки
+}
+
+$builder = $adapterLaravel->getBuilder();
+$builder->get();
+    
+```
+
+4. FilterFacade приблизительно
+```
+class FilterFacade 
+{
+    private static ?FilterFactory $instance = null;
+
+    public static function addNamespace(string $namespace): void
+    {
+        self::getInstance()->addNamespace($namespace);
+    }
+
+    public static function create(string $type, ...$args): object
+    {
+        return self::getInstance()->create($type, ...$args);
+    }
+
+    private static function getInstance(): FilterFactory
+    {
+        if (!self::$instance) {
+            self::$instance = new FilterFactory(
+                'Xanderevg\GridFilters\Filters'
+            );
+        }
+        return self::$instance;
+    }
+}
+```

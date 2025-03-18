@@ -27,7 +27,9 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=7.4.0",
-        "ext-json": "*"
+        "php": ">=8.2.0",
+        "ext-json": "*",
+        "illuminate/database": "*",
+        "doctrine/orm": "*"
     }
 }
