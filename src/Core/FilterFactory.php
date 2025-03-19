@@ -10,7 +10,7 @@ class FilterFactory
     protected array $additionalNamespaces = [];
     private array $filtersCache = [];
 
-    public function __construct(string $baseNamespace=__NAMESPACE__)
+    public function __construct(string $baseNamespace = __NAMESPACE__)
     {
         $this->baseNamespace = $baseNamespace;
     }
@@ -30,13 +30,13 @@ class FilterFactory
 
         $className = str_replace('_', '', ucwords($type, ' _')).'Filter';
 
-        $baseFullClassName = $baseNamespace . '\\' . $className;
+        $baseFullClassName = $baseNamespace.'\\'.$className;
         if (class_exists($baseFullClassName)) {
             return $this->filtersCache[$type] = $baseFullClassName;
         }
 
         foreach ($this->additionalNamespaces as $namespace) {
-            $customFullClassName = $namespace . '\\' . $className;
+            $customFullClassName = $namespace.'\\'.$className;
             if (class_exists($customFullClassName)) {
                 return $this->filtersCache[$type] = $customFullClassName;
             }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Xanderevg\GridFiltersLibrary\Core\Filters;
 
 use Xanderevg\GridFiltersLibrary\Core\AbstractColumnFilter;

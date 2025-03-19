@@ -2,7 +2,6 @@
 
 namespace Xanderevg\GridFiltersLibrary\Core;
 
-
 use Xanderevg\GridFiltersLibrary\Core\Exceptions\FilterOperatorException;
 
 abstract class AbstractColumnFilter implements ColumnFilterInterface

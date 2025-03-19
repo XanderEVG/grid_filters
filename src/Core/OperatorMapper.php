@@ -8,11 +8,11 @@ class OperatorMapper
 {
     private const OPERATOR_MAP = [
         // Основные операторы
-        'eq'  => '=',
+        'eq' => '=',
         'neq' => '<>',
-        'gt'  => '>',
+        'gt' => '>',
         'gte' => '>=',
-        'lt'  => '<',
+        'lt' => '<',
         'lte' => '<=',
 
         // Синонимы
@@ -38,14 +38,17 @@ class OperatorMapper
             }
             throw new FilterOperatorException("Invalid filter operator: $alias");
         }
+
         return self::OPERATOR_MAP[$alias];
     }
 
-    public static function getSupportedOperators(): array {
+    public static function getSupportedOperators(): array
+    {
         return array_unique(array_merge(array_keys(self::OPERATOR_MAP), array_values(self::OPERATOR_MAP)));
     }
 
-    public static function isSupported(string $alias): bool {
+    public static function isSupported(string $alias): bool
+    {
         return isset(self::OPERATOR_MAP[$alias]) || in_array($alias, self::OPERATOR_MAP);
     }
 }
