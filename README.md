@@ -18,6 +18,7 @@
 - Фильтрация по любым полям модели/сущности.
 - Несколько фильтров на одно поле.
 - Комбинирование фильтров для разных полей.
+- Поддержка кэша (Xanderevg\GridFiltersLibrary\Core\Cache\CacheAdapterInterface)
 
 #### Поддержка типов: текст, число, дата, булево, диапазон, список и др.
 
@@ -34,6 +35,17 @@
 `composer require xanderevg/grid_filters  `
 
 ## Кастомизация
+
+## Адаптер для кэша
+```
+$redis = new Predis\Client();
+$cacheAdapter = new App\Cache\RedisCacheAdapter($redis);
+
+$filterFactory = new Xanderevg\GridFiltersLibrary\Core\FilterFactory(
+    'Xanderevg\GridFiltersLibrary\Core\Filters',
+    $cacheAdapter
+);
+```
 
 ## Лицензия
 MIT License.
@@ -117,3 +129,4 @@ class FilterFacade
     }
 }
 ```
+

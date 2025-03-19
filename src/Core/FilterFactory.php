@@ -2,17 +2,21 @@
 
 namespace Xanderevg\GridFiltersLibrary\Core;
 
+use Xanderevg\GridFiltersLibrary\Core\Cache\ArrayCacheAdapter;
+use Xanderevg\GridFiltersLibrary\Core\Cache\CacheAdapterInterface;
 use Xanderevg\GridFiltersLibrary\Core\Exceptions\FilterNotFoundException;
 
 class FilterFactory
 {
     protected string $baseNamespace;
     protected array $additionalNamespaces = [];
-    private array $filtersCache = [];
+    private string $cacheKeyPrefix = 'filter_factory_';
+    private CacheAdapterInterface $cacheAdapter;
 
-    public function __construct(string $baseNamespace = __NAMESPACE__)
+    public function __construct(string $baseNamespace = __NAMESPACE__, ?CacheAdapterInterface $cacheAdapter = null)
     {
         $this->baseNamespace = $baseNamespace;
+        $this->cacheAdapter = $cacheAdapter ?? new ArrayCacheAdapter();
     }
 
     public function create(QueryBuilderInterface $builder, FilterElement $filter): ColumnFilterInterface
@@ -24,21 +28,27 @@ class FilterFactory
 
     protected function resolveClassName(string $type, string $baseNamespace): string
     {
-        if (isset($this->filtersCache[$type])) {
-            return $this->filtersCache[$type];
+        $cacheKey = $this->generateCacheKey($type);
+
+        if ($cachedClass = $this->cacheAdapter->get($cacheKey)) {
+            return $cachedClass;
         }
 
         $className = str_replace('_', '', ucwords($type, ' _')).'Filter';
 
         $baseFullClassName = $baseNamespace.'\\'.$className;
         if (class_exists($baseFullClassName)) {
-            return $this->filtersCache[$type] = $baseFullClassName;
+            $this->cacheAdapter->set($cacheKey, $baseFullClassName);
+
+            return $baseFullClassName;
         }
 
         foreach ($this->additionalNamespaces as $namespace) {
             $customFullClassName = $namespace.'\\'.$className;
             if (class_exists($customFullClassName)) {
-                return $this->filtersCache[$type] = $customFullClassName;
+                $this->cacheAdapter->set($cacheKey, $customFullClassName);
+
+                return $customFullClassName;
             }
         }
 
@@ -49,14 +59,14 @@ class FilterFactory
     {
         if (!in_array($namespace, $this->additionalNamespaces)) {
             $this->additionalNamespaces[] = rtrim($namespace, '\\');
-            $this->clearCache();
+            $this->cacheAdapter->clear();
         }
     }
 
     public function addAdditionalFiltersNamespaces(array $namespaces): void
     {
         $this->additionalNamespaces = $namespaces;
-        $this->clearCache();
+        $this->cacheAdapter->clear();
     }
 
     public function getAdditionalNamespaces(): array
@@ -64,8 +74,19 @@ class FilterFactory
         return $this->additionalNamespaces;
     }
 
-    private function clearCache()
+    public function setCacheAdapter(CacheAdapterInterface $adapter): self
     {
-        $this->filtersCache = [];
+        $this->cacheAdapter = $adapter;
+
+        return $this;
+    }
+
+    private function generateCacheKey(string $type): string
+    {
+        return $this->cacheKeyPrefix.md5(serialize([
+            $type,
+            $this->baseNamespace,
+            $this->additionalNamespaces,
+        ]));
     }
 }
