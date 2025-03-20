@@ -141,3 +141,6 @@ $filterFactory = new Xanderevg\GridFiltersLibrary\Core\FilterFactory(
 MIT License.
 
 #### GitHub: https://github.com/xanderevg/grid_filters
+
+# TODO
+Тесты, включая тесты на реальной бд
