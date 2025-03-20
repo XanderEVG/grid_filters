@@ -18,6 +18,7 @@
 - Фильтрация по любым полям модели/сущности.
 - Несколько фильтров на одно поле.
 - Комбинирование фильтров для разных полей.
+- Поддержка кэша (Xanderevg\GridFiltersLibrary\Core\Cache\CacheAdapterInterface)
 
 #### Поддержка типов: текст, число, дата, булево, диапазон, список и др.
 
@@ -27,21 +28,6 @@
 
 
 ## Пример использования
-
-## Поддерживаемые фильтры (из коробки)
-
-## Установка
-`composer require xanderevg/grid_filters  `
-
-## Кастомизация
-
-## Лицензия
-MIT License.
-
-#### GitHub: https://github.com/xanderevg/grid_filters
-
-
-### Примеры использования
 1. Создание фабрики
 - `$baseFactory = new FilterFactory(); // Бибилиотечные фильтры`
 - `$baseFactory = new FilterFactory('App\BaseFilters'); // BaseFilters`
@@ -57,7 +43,7 @@ $this->app->singleton(FilterFactory::class, function() {
 });
 ```
 
-3.  Пример использования
+3.  Добавление фильтров
 ```
 use FilterLibrary\Laravel\Query\EloquentBuilderAdapter;
 use FilterLibrary\Symfony\Query\DoctrineQueryBuilderAdapter;
@@ -78,7 +64,7 @@ $filterElements = [
 
 try {   
     foreach ($filterElements as $filterElement) {
-            $filter = FilterFactory::getFilter($adapterLaravel, $filterElement);
+            $filter = FilterFactory->create($adapterLaravel, $filterElement);
             $adapterLaravel = $filter->add();
     }
 } catch (FilterNotFoundException $e) {
@@ -117,3 +103,41 @@ class FilterFacade
     }
 }
 ```
+
+
+## Поддерживаемые фильтры (из коробки)
+- BooleanFilter
+- BoolFilter
+- DateFilter
+- DatetimeFilter
+- EditorFilter
+- IdFilter
+- IntFilter
+- NumberFilter
+- RolesFilter
+- SelectFilter
+- SelectTreeFilter
+- StringFilter
+- StringSelectFilter
+- TextFilter
+
+## Установка
+`composer require xanderevg/grid_filters  `
+
+## Кастомизация
+
+## Адаптер для кэша
+```
+$redis = new Predis\Client();
+$cacheAdapter = new App\Cache\RedisCacheAdapter($redis);
+
+$filterFactory = new Xanderevg\GridFiltersLibrary\Core\FilterFactory(
+    'Xanderevg\GridFiltersLibrary\Core\Filters',
+    $cacheAdapter
+);
+```
+
+## Лицензия
+MIT License.
+
+#### GitHub: https://github.com/xanderevg/grid_filters

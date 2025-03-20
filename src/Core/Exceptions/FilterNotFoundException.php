@@ -2,9 +2,7 @@
 
 namespace Xanderevg\GridFiltersLibrary\Core\Exceptions;
 
-use RuntimeException;
-
-class FilterNotFoundException extends RuntimeException
+class FilterNotFoundException extends \RuntimeException
 {
     public function __construct(string $message = 'Unknown filter', int $code = 400, ?\Throwable $previous = null)
     {

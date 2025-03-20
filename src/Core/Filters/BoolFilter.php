@@ -10,17 +10,17 @@ class BoolFilter extends AbstractColumnFilter
     {
         $this->checkAllowedOperator($operator, ['=', '<>', 'is', 'is true', 'is false']);
 
-        if ($operator === 'is true') {
+        if ('is true' === $operator) {
             return $this->builder->where($column, '=', true);
         }
 
-        if ($operator === 'is false') {
+        if ('is false' === $operator) {
             return $this->builder->where($column, '=', false);
         }
 
         $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
 
-        if ($operator === '<>') {
+        if ('<>' === $operator) {
             $value = !$value;
         }
 
