@@ -13,9 +13,9 @@ class FilterFactory
     private string $cacheKeyPrefix = 'filter_factory_';
     private CacheAdapterInterface $cacheAdapter;
 
-    public function __construct(string $baseNamespace = __NAMESPACE__, ?CacheAdapterInterface $cacheAdapter = null)
+    public function __construct(?string $baseNamespace = null, ?CacheAdapterInterface $cacheAdapter = null)
     {
-        $this->baseNamespace = $baseNamespace;
+        $this->baseNamespace = $baseNamespace ?? __NAMESPACE__ . "\\Filters";
         $this->cacheAdapter = $cacheAdapter ?? new ArrayCacheAdapter();
     }
 
@@ -35,7 +35,6 @@ class FilterFactory
         }
 
         $className = str_replace('_', '', ucwords($type, ' _')).'Filter';
-
         $baseFullClassName = $baseNamespace.'\\'.$className;
         if (class_exists($baseFullClassName)) {
             $this->cacheAdapter->set($cacheKey, $baseFullClassName);

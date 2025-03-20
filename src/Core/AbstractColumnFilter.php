@@ -8,7 +8,7 @@ abstract class AbstractColumnFilter implements ColumnFilterInterface
 {
     public function __construct(protected QueryBuilderInterface $builder, protected FilterElement $filterBy)
     {
-        $this->filterBy->type = OperatorMapper::resolve($this->filterBy->type);
+        $this->filterBy->operator = OperatorMapper::resolve($this->filterBy->operator);
     }
 
     protected function checkAllowedOperator($operator, $allowed_operator): void

@@ -4,7 +4,7 @@ namespace Xanderevg\GridFiltersLibrary\Core;
 
 interface QueryBuilderInterface
 {
-    public function getBuilder(): mixed;
+    public function getBaseBuilder(): mixed;
 
     public function where(string $field, string $operator, mixed $value): self;
 

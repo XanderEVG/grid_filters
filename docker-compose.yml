@@ -1,25 +1,13 @@
 services:
   database:
-      container_name: sonco_db
+      container_name: grid_filters_test
       image: postgres
       environment:
-        POSTGRES_DB: sonco
+        POSTGRES_DB: grid_filters_test
         POSTGRES_USER: user
         POSTGRES_PASSWORD: pass
       ports:
-        - 5406:5432
-  redis:
-    container_name: sonco_redis
-    image: "redis:alpine"
-    command: redis-server --requirepass 1234560
-    ports:
-        - "6379:6379"
-    volumes:
-        - $PWD/local/redis-data:/var/lib/redis
-        - $PWD/local/redis.conf:/usr/local/etc/redis/redis.conf
-    environment:
-        - REDIS_REPLICATION_MODE=master
-
+        - 5432:5432
 volumes:
   db-data:
     driver: local

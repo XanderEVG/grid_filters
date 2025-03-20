@@ -12,7 +12,12 @@ class EloquentBuilderAdapter implements QueryBuilderInterface
     {
     }
 
-    public function getBuilder(): mixed
+    public function getBaseBuilder(): mixed
+    {
+        return $this->builder;
+    }
+
+    public function getBuilder(): Builder
     {
         return $this->builder;
     }
