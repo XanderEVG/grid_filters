@@ -122,7 +122,7 @@ class FilterFacade
 - TextFilter
 
 ## Установка
-`composer require xanderevg/grid_filters  `
+`composer require xanderevg/grid_filters`
 
 ## Кастомизация
 
