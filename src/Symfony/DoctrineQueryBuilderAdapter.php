@@ -12,7 +12,12 @@ class DoctrineQueryBuilderAdapter implements QueryBuilderInterface
     {
     }
 
-    public function getBuilder(): mixed
+    public function getBaseBuilder(): mixed
+    {
+        return $this->builder;
+    }
+
+    public function getBuilder(): QueryBuilder
     {
         return $this->builder;
     }
