@@ -54,18 +54,22 @@ class FilterFactory
         throw new FilterNotFoundException("Unknown filter for type: {$type}");
     }
 
-    public function addAdditionalFiltersNamespace(string $namespace): void
+    public function addAdditionalFiltersNamespace(string $namespace): self
     {
         if (!in_array($namespace, $this->additionalNamespaces)) {
             $this->additionalNamespaces[] = rtrim($namespace, '\\');
             $this->cacheAdapter->clear();
         }
+
+        return $this;
     }
 
-    public function addAdditionalFiltersNamespaces(array $namespaces): void
+    public function addAdditionalFiltersNamespaces(array $namespaces): self
     {
         $this->additionalNamespaces = $namespaces;
         $this->cacheAdapter->clear();
+
+        return $this;
     }
 
     public function getAdditionalNamespaces(): array
