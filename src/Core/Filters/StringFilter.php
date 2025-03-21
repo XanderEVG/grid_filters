@@ -9,12 +9,12 @@ class StringFilter extends AbstractColumnFilter
 {
     protected function addColumnFilter(string $column, string $operator, mixed $value): mixed
     {
-        $this->checkAllowedOperator($operator, ['=', '<>', 'like', 'ilike']);
+        $this->checkAllowedOperator($operator, ['=', '<>', 'like']);
 
-        if (in_array($operator, ['like', 'ilike'])) {
-            $operator = 'ilike';
+        if ($operator === 'like') {
             $lowerCaseValue = mb_strtolower($value);
             $value = "%$lowerCaseValue%";
+            return $this->builder->whereLike($column, $value);
         }
 
         if ($value === null) {

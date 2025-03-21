@@ -21,7 +21,6 @@ class OperatorMapper
         'is_false' => 'is false',
 
         'like' => 'like',
-        'ilike' => 'ilike',
 
         'in' => 'in',
         'not_in' => 'not in',
