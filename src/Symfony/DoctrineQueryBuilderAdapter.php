@@ -3,6 +3,7 @@
 namespace Xanderevg\GridFiltersLibrary\Symfony;
 
 use Doctrine\ORM\QueryBuilder;
+use Xanderevg\GridFiltersLibrary\Core\Exceptions\FilterColumnException;
 use Xanderevg\GridFiltersLibrary\Core\Exceptions\FilterValueException;
 use Xanderevg\GridFiltersLibrary\Core\QueryBuilderInterface;
 
@@ -24,8 +25,8 @@ class DoctrineQueryBuilderAdapter implements QueryBuilderInterface
 
     private function validateField(string $field): void
     {
-        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $field)) {
-            throw new \InvalidArgumentException("Invalid field name: $field");
+        if (!preg_match('/^(?!.*\.$)[a-zA-Z_][a-zA-Z0-9_]*[a-zA-Z0-9_.]?[a-zA-Z0-9_]*$/', $field)) {
+            throw new FilterColumnException("Invalid field name: $field");
         }
     }
 
@@ -42,9 +43,9 @@ class DoctrineQueryBuilderAdapter implements QueryBuilderInterface
             $value = implode(',', $value);
         }
 
-        $value_hash = md5($value);
+        $value_hash = md5($operator . $value);
 
-        return str_replace('.', '_', $field).'_'.$operator.'_'.$value_hash;
+        return str_replace('.', '_', $field).'_'.$value_hash;
     }
 
     public function where(string $field, string $operator, $value): self
