@@ -215,6 +215,7 @@ class DoctrineQueryBuilderAdapter implements QueryBuilderInterface
     {
         $field = $this->safeField($field);
         $placeholder = $this->getPlaceholder($field, 'like', $value);
+        $field = "LOWER($field)";
         $this->builder->andWhere(
             $this->builder->expr()->like($field, ':'.$placeholder)
         )->setParameter($placeholder, $value);
@@ -226,6 +227,7 @@ class DoctrineQueryBuilderAdapter implements QueryBuilderInterface
     {
         $field = $this->safeField($field);
         $placeholder = $this->getPlaceholder($field, 'not like', $value);
+        $field = "LOWER($field)";
         $this->builder->andWhere(
             $this->builder->expr()->notLike($field, ':'.$placeholder)
         )->setParameter($placeholder, $value);
