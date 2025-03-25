@@ -2,9 +2,9 @@
 
 namespace Core;
 
+use PHPUnit\Framework\TestCase;
 use Xanderevg\GridFiltersLibrary\Core\Exceptions\FilterOperatorException;
 use Xanderevg\GridFiltersLibrary\Core\OperatorMapper;
-use PHPUnit\Framework\TestCase;
 
 class OperatorMapperTest extends TestCase
 {

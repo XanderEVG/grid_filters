@@ -15,7 +15,7 @@ class FilterFactory
 
     public function __construct(?string $baseNamespace = null, ?CacheAdapterInterface $cacheAdapter = null)
     {
-        $this->baseNamespace = $baseNamespace ?? __NAMESPACE__ . "\\Filters";
+        $this->baseNamespace = $baseNamespace ?? __NAMESPACE__.'\\Filters';
         $this->cacheAdapter = $cacheAdapter ?? new ArrayCacheAdapter();
     }
 

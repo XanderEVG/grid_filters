@@ -43,7 +43,7 @@ class DoctrineQueryBuilderAdapter implements QueryBuilderInterface
             $value = implode(',', $value);
         }
 
-        $value_hash = md5($operator . $value);
+        $value_hash = md5($operator.$value);
 
         return str_replace('.', '_', $field).'_'.$value_hash;
     }

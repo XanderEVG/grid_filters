@@ -45,7 +45,7 @@ class EloquentBuilderAdapter implements QueryBuilderInterface
 
     public function whereFalseOrNull(string $field): self
     {
-        $this->builder->where(function ($subQuery) use ($field){
+        $this->builder->where(function ($subQuery) use ($field) {
             $subQuery->where($field, '=', false)->orWhereNull($field);
         });
 

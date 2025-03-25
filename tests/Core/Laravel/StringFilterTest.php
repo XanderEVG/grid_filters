@@ -22,7 +22,7 @@ class StringFilterTest extends TestCase
     public function setUp(): void
     {
         $dsn = 'pgsql:host=127.0.0.1;port=5432;dbname=grid_filters_test';
-        $this->pdo = new \PDO($dsn, 'user','pass');
+        $this->pdo = new \PDO($dsn, 'user', 'pass');
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         $connection = new Connection($this->pdo);
@@ -47,7 +47,6 @@ class StringFilterTest extends TestCase
         $this->assertEquals('=', $wheres[0]['operator']);
         $this->assertEquals('value1', $wheres[0]['value']);
     }
-
 
     public function testStringEqualSymbol()
     {
@@ -99,7 +98,6 @@ class StringFilterTest extends TestCase
         $this->assertEquals('%value1%', $wheres[0]['value']);
     }
 
-
     public function testStringManyFilters()
     {
         $filterElement = new FilterElement('column_1', 'value', 'ilike', 'string');
@@ -137,7 +135,6 @@ class StringFilterTest extends TestCase
         $this->assertEquals('=', $wheres[3]['operator']);
         $this->assertEquals('value_1', $wheres[3]['value']);
     }
-
 
     public function testStringBadOperator()
     {

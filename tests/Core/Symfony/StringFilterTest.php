@@ -3,8 +3,6 @@
 namespace Core\Symfony;
 
 use PHPUnit\Framework\TestCase;
-use Xanderevg\GridFiltersLibrary\Core\Exceptions\FilterOperatorException;
-use Xanderevg\GridFiltersLibrary\Core\Exceptions\FilterValueException;
 use Xanderevg\GridFiltersLibrary\Core\FilterElement;
 use Xanderevg\GridFiltersLibrary\Core\FilterFactory;
 use Xanderevg\GridFiltersLibrary\Symfony\DoctrineQueryBuilderAdapter;

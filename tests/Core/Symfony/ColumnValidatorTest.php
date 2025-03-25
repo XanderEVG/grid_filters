@@ -2,12 +2,12 @@
 
 namespace Core\Symfony;
 
+use Doctrine\ORM\QueryBuilder;
+use PHPUnit\Framework\TestCase;
 use Xanderevg\GridFiltersLibrary\Core\Exceptions\FilterColumnException;
 use Xanderevg\GridFiltersLibrary\Core\FilterElement;
 use Xanderevg\GridFiltersLibrary\Core\FilterFactory;
-use PHPUnit\Framework\TestCase;
 use Xanderevg\GridFiltersLibrary\Symfony\DoctrineQueryBuilderAdapter;
-use Doctrine\ORM\QueryBuilder;
 
 class ColumnValidatorTest extends TestCase
 {
@@ -57,7 +57,6 @@ class ColumnValidatorTest extends TestCase
         $this->assertInstanceOf(DoctrineQueryBuilderAdapter::class, $builder);
     }
 
-
     public static function incorrectColumnsProvider(): array
     {
         return [
@@ -68,16 +67,16 @@ class ColumnValidatorTest extends TestCase
             [';column.'],
             ["'column"],
             ["\'column"],
-            ["--column"],
-            [",column"],
-            ["co,lumn"],
+            ['--column'],
+            [',column'],
+            ['co,lumn'],
             ["'--drop database"],
             ["'--"],
-            ["sdfsd*sdf"],
-            ["column/"],
-            ["column or"],
-            ["column or true=true"],
-            ["*"],
+            ['sdfsd*sdf'],
+            ['column/'],
+            ['column or'],
+            ['column or true=true'],
+            ['*'],
         ];
     }
 
