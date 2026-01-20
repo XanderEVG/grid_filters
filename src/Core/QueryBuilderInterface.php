@@ -26,8 +26,5 @@ interface QueryBuilderInterface
 
     public function whereNotLike(string $field, string $value): self;
 
-    // whereMonth
-    // whereDay
-    // whereYear
-    // whereTime
+    public function whereHas(string $relation, \Closure $callback): self;
 }

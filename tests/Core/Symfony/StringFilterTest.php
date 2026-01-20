@@ -3,8 +3,6 @@
 namespace Core\Symfony;
 
 use PHPUnit\Framework\TestCase;
-use Xanderevg\GridFiltersLibrary\Core\Exceptions\FilterOperatorException;
-use Xanderevg\GridFiltersLibrary\Core\Exceptions\FilterValueException;
 use Xanderevg\GridFiltersLibrary\Core\FilterElement;
 use Xanderevg\GridFiltersLibrary\Core\FilterFactory;
 use Xanderevg\GridFiltersLibrary\Symfony\DoctrineQueryBuilderAdapter;
@@ -23,7 +21,7 @@ class StringFilterTest extends TestCase
         $this->baseFactory = new FilterFactory();
     }
 
-    public function testStringEq()
+    public function testStringEq(): void
     {
         $filterElement = new FilterElement('column_1', 'value1', 'eq', 'string');
         $filter = $this->baseFactory->create($this->adapter, $filterElement);

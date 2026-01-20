@@ -2,12 +2,13 @@
 
 namespace Core\Symfony;
 
+use Doctrine\ORM\QueryBuilder;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Xanderevg\GridFiltersLibrary\Core\Exceptions\FilterColumnException;
 use Xanderevg\GridFiltersLibrary\Core\FilterElement;
 use Xanderevg\GridFiltersLibrary\Core\FilterFactory;
-use PHPUnit\Framework\TestCase;
 use Xanderevg\GridFiltersLibrary\Symfony\DoctrineQueryBuilderAdapter;
-use Doctrine\ORM\QueryBuilder;
 
 class ColumnValidatorTest extends TestCase
 {
@@ -45,10 +46,8 @@ class ColumnValidatorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider correctColumnsProvider
-     */
-    public function testCorrectColumn($columnsName)
+    #[DataProvider('correctColumnsProvider')]
+    public function testCorrectColumn($columnsName): void
     {
         $filterElement = new FilterElement($columnsName, 'value1', 'eq', 'string');
         $filter = $this->baseFactory->create($this->adapter, $filterElement);
@@ -56,7 +55,6 @@ class ColumnValidatorTest extends TestCase
 
         $this->assertInstanceOf(DoctrineQueryBuilderAdapter::class, $builder);
     }
-
 
     public static function incorrectColumnsProvider(): array
     {
@@ -68,23 +66,21 @@ class ColumnValidatorTest extends TestCase
             [';column.'],
             ["'column"],
             ["\'column"],
-            ["--column"],
-            [",column"],
-            ["co,lumn"],
+            ['--column'],
+            [',column'],
+            ['co,lumn'],
             ["'--drop database"],
             ["'--"],
-            ["sdfsd*sdf"],
-            ["column/"],
-            ["column or"],
-            ["column or true=true"],
-            ["*"],
+            ['sdfsd*sdf'],
+            ['column/'],
+            ['column or'],
+            ['column or true=true'],
+            ['*'],
         ];
     }
 
-    /**
-     * @dataProvider incorrectColumnsProvider
-     */
-    public function testIncorrectColumn($columnName)
+    #[DataProvider('incorrectColumnsProvider')]
+    public function testIncorrectColumn($columnName): void
     {
         $this->expectException(FilterColumnException::class);
 

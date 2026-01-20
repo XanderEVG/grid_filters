@@ -43,7 +43,7 @@ class DoctrineQueryBuilderAdapter implements QueryBuilderInterface
             $value = implode(',', $value);
         }
 
-        $value_hash = md5($operator . $value);
+        $value_hash = md5($operator.$value);
 
         return str_replace('.', '_', $field).'_'.$value_hash;
     }
@@ -233,5 +233,38 @@ class DoctrineQueryBuilderAdapter implements QueryBuilderInterface
         )->setParameter($placeholder, $value);
 
         return $this;
+    }
+
+    public function whereHas(string $relation, \Closure $callback): self
+    {
+        // AI generated failed!!!
+        throw new \RuntimeException('Not implemented yet');
+        /*$joinAlias = $this->generateAlias($relation);
+
+        $this->builder->leftJoin("{$this->alias}.{$relation}", $joinAlias);
+
+        if ($callback) {
+            // Создаем новый QueryBuilder для коллбэка
+            $callbackBuilder = new DoctrineWhereBuilder($joinAlias);
+            $callback($callbackBuilder);
+
+            // Применяем условия из коллбэка
+            foreach ($callbackBuilder->getWheres() as $where) {
+                $this->builder->andWhere($where['condition']);
+                foreach ($where['parameters'] as $key => $value) {
+                    $this->builder->setParameter($key, $value);
+                }
+            }
+        }*/
+
+        return $this;
+    }
+
+    private function generateAlias(string $relation): string
+    {
+        $alias = strtolower($relation);
+        $alias = preg_replace('/[^a-z0-9]/', '', $alias);
+
+        return $alias;
     }
 }

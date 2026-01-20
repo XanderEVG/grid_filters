@@ -11,14 +11,15 @@ class StringFilter extends AbstractColumnFilter
     {
         $this->checkAllowedOperator($operator, ['=', '<>', 'like']);
 
-        if ($operator === 'like') {
+        if ('like' === $operator) {
             $lowerCaseValue = mb_strtolower($value);
             $value = "%$lowerCaseValue%";
+
             return $this->builder->whereLike($column, $value);
         }
 
-        if ($value === null) {
-            if ($operator === '<>') {
+        if (null === $value) {
+            if ('<>' === $operator) {
                 return $this->builder->whereNotNull($column);
             }
 

@@ -45,7 +45,7 @@ class EloquentBuilderAdapter implements QueryBuilderInterface
 
     public function whereFalseOrNull(string $field): self
     {
-        $this->builder->where(function ($subQuery) use ($field){
+        $this->builder->where(function ($subQuery) use ($field) {
             $subQuery->where($field, '=', false)->orWhereNull($field);
         });
 
@@ -98,6 +98,13 @@ class EloquentBuilderAdapter implements QueryBuilderInterface
     public function whereNotLike(string $field, string $value): self
     {
         $this->builder->whereNotLike($field, $value);
+
+        return $this;
+    }
+
+    public function whereHas(string $relation, \Closure $callback): self
+    {
+        $this->builder->whereHas($relation, $callback);
 
         return $this;
     }

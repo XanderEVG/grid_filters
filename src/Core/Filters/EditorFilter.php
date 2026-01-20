@@ -13,9 +13,10 @@ class EditorFilter extends AbstractColumnFilter
         // Затычка баги на фронте в либе z-q-lib
         $operator = 'like';
 
-        if ($operator === 'like') {
+        if ('like' === $operator) {
             $lowerCaseValue = mb_strtolower($value);
             $value = "%$lowerCaseValue%";
+
             return $this->builder->whereLike($column, $value);
         }
 
