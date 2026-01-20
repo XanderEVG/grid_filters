@@ -3,6 +3,7 @@
 namespace Core\Symfony;
 
 use Doctrine\ORM\QueryBuilder;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Xanderevg\GridFiltersLibrary\Core\Exceptions\FilterColumnException;
 use Xanderevg\GridFiltersLibrary\Core\FilterElement;
@@ -45,10 +46,8 @@ class ColumnValidatorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider correctColumnsProvider
-     */
-    public function testCorrectColumn($columnsName)
+    #[DataProvider('correctColumnsProvider')]
+    public function testCorrectColumn($columnsName): void
     {
         $filterElement = new FilterElement($columnsName, 'value1', 'eq', 'string');
         $filter = $this->baseFactory->create($this->adapter, $filterElement);
@@ -80,10 +79,8 @@ class ColumnValidatorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider incorrectColumnsProvider
-     */
-    public function testIncorrectColumn($columnName)
+    #[DataProvider('incorrectColumnsProvider')]
+    public function testIncorrectColumn($columnName): void
     {
         $this->expectException(FilterColumnException::class);
 

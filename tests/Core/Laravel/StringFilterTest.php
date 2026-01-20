@@ -32,7 +32,7 @@ class StringFilterTest extends TestCase
         $this->baseFactory = new FilterFactory();
     }
 
-    public function testStringEq()
+    public function testStringEq(): void
     {
         $filterElement = new FilterElement('column_1', 'value1', 'eq', 'string');
         $filter = $this->baseFactory->create($this->adapterLaravel, $filterElement);
@@ -48,7 +48,7 @@ class StringFilterTest extends TestCase
         $this->assertEquals('value1', $wheres[0]['value']);
     }
 
-    public function testStringEqualSymbol()
+    public function testStringEqualSymbol(): void
     {
         $filterElement = new FilterElement('column_1', 'value1', '=', 'string');
         $filter = $this->baseFactory->create($this->adapterLaravel, $filterElement);
@@ -65,42 +65,41 @@ class StringFilterTest extends TestCase
         $this->assertEquals('value1', $wheres[0]['value']);
     }
 
-    public function testStringLike()
+    public function testStringLike(): void
     {
         $filterElement = new FilterElement('column_1', 'value1', 'like', 'string');
         $filter = $this->baseFactory->create($this->adapterLaravel, $filterElement);
         $filter->add();
 
         $wheres = $this->adapterLaravel->getBuilder()->getQuery()->wheres;
-
         $this->assertCount(1, $wheres);
         $this->assertArrayHasKey('column', $wheres[0]);
-        $this->assertArrayHasKey('operator', $wheres[0]);
+        $this->assertArrayHasKey('type', $wheres[0]);
         $this->assertArrayHasKey('value', $wheres[0]);
         $this->assertEquals('column_1', $wheres[0]['column']);
-        $this->assertEquals('ilike', $wheres[0]['operator']);
+        $this->assertEquals('Like', $wheres[0]['type']);
         $this->assertEquals('%value1%', $wheres[0]['value']);
     }
 
-    public function testStringiLike()
+    public function testStringiLike(): void
     {
-        $filterElement = new FilterElement('column_1', 'value1', 'ilike', 'string');
+        $filterElement = new FilterElement('column_1', 'value1', 'like', 'string');
         $filter = $this->baseFactory->create($this->adapterLaravel, $filterElement);
         $filter->add();
 
         $wheres = $this->adapterLaravel->getBuilder()->getQuery()->wheres;
         $this->assertCount(1, $wheres);
         $this->assertArrayHasKey('column', $wheres[0]);
-        $this->assertArrayHasKey('operator', $wheres[0]);
+        $this->assertArrayHasKey('type', $wheres[0]);
         $this->assertArrayHasKey('value', $wheres[0]);
         $this->assertEquals('column_1', $wheres[0]['column']);
-        $this->assertEquals('ilike', $wheres[0]['operator']);
+        $this->assertEquals('Like', $wheres[0]['type']);
         $this->assertEquals('%value1%', $wheres[0]['value']);
     }
 
-    public function testStringManyFilters()
+    public function testStringManyFilters(): void
     {
-        $filterElement = new FilterElement('column_1', 'value', 'ilike', 'string');
+        $filterElement = new FilterElement('column_1', 'value', 'like', 'string');
         $filter = $this->baseFactory->create($this->adapterLaravel, $filterElement);
         $filter->add();
 
@@ -117,10 +116,9 @@ class StringFilterTest extends TestCase
         $filter->add();
 
         $wheres = $this->adapterLaravel->getBuilder()->getQuery()->wheres;
-
         $this->assertCount(4, $wheres);
         $this->assertEquals('column_1', $wheres[0]['column']);
-        $this->assertEquals('ilike', $wheres[0]['operator']);
+        $this->assertEquals('Like', $wheres[0]['type']);
         $this->assertEquals('%value%', $wheres[0]['value']);
 
         $this->assertEquals('column_1', $wheres[1]['column']);
@@ -136,7 +134,7 @@ class StringFilterTest extends TestCase
         $this->assertEquals('value_1', $wheres[3]['value']);
     }
 
-    public function testStringBadOperator()
+    public function testStringBadOperator(): void
     {
         $this->expectException(FilterOperatorException::class);
 
@@ -147,7 +145,7 @@ class StringFilterTest extends TestCase
         $wheres = $this->adapterLaravel->getBuilder()->getQuery()->wheres;
     }
 
-    public function testStringNullValue()
+    public function testStringNullValue(): void
     {
         $filterElement = new FilterElement('column_1', null, '=', 'string');
         $filter = $this->baseFactory->create($this->adapterLaravel, $filterElement);
@@ -158,7 +156,7 @@ class StringFilterTest extends TestCase
         $this->assertEquals('Null', $wheres[0]['type']);
     }
 
-    public function testStringNotNullValue()
+    public function testStringNotNullValue(): void
     {
         $filterElement = new FilterElement('column_1', null, '<>', 'string');
         $filter = $this->baseFactory->create($this->adapterLaravel, $filterElement);
@@ -169,7 +167,7 @@ class StringFilterTest extends TestCase
         $this->assertEquals('NotNull', $wheres[0]['type']);
     }
 
-    public function testStringBadValue()
+    public function testStringBadValue(): void
     {
         $this->expectException(FilterValueException::class);
 

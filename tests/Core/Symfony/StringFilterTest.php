@@ -21,7 +21,7 @@ class StringFilterTest extends TestCase
         $this->baseFactory = new FilterFactory();
     }
 
-    public function testStringEq()
+    public function testStringEq(): void
     {
         $filterElement = new FilterElement('column_1', 'value1', 'eq', 'string');
         $filter = $this->baseFactory->create($this->adapter, $filterElement);

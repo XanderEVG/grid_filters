@@ -101,4 +101,11 @@ class EloquentBuilderAdapter implements QueryBuilderInterface
 
         return $this;
     }
+
+    public function whereHas(string $relation, \Closure $callback): self
+    {
+        $this->builder->whereHas($relation, $callback);
+
+        return $this;
+    }
 }

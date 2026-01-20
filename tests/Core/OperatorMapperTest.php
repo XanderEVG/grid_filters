@@ -8,25 +8,25 @@ use Xanderevg\GridFiltersLibrary\Core\OperatorMapper;
 
 class OperatorMapperTest extends TestCase
 {
-    public function testResolveOperatorEq()
+    public function testResolveOperatorEq(): void
     {
         $this->assertEquals('=', OperatorMapper::resolve('eq'));
         $this->assertEquals('=', OperatorMapper::resolve('='));
     }
 
-    public function testResolveOperatorNeq()
+    public function testResolveOperatorNeq(): void
     {
         $this->assertEquals('<>', OperatorMapper::resolve('neq'));
         $this->assertEquals('<>', OperatorMapper::resolve('<>'));
     }
 
-    public function testResolveInvaidOperator()
+    public function testResolveInvaidOperator(): void
     {
         $this->expectException(FilterOperatorException::class);
         OperatorMapper::resolve('invalid');
     }
 
-    public function testGetSupportedOperators()
+    public function testGetSupportedOperators(): void
     {
         $supportedOperators = OperatorMapper::getSupportedOperators();
         $this->assertIsArray($supportedOperators);
@@ -40,7 +40,7 @@ class OperatorMapperTest extends TestCase
         $this->assertContains('is_false', $supportedOperators);
     }
 
-    public function testIsSupported()
+    public function testIsSupported(): void
     {
         $this->assertEquals(true, OperatorMapper::isSupported('gte'));
         $this->assertEquals(true, OperatorMapper::isSupported('like'));
@@ -48,7 +48,7 @@ class OperatorMapperTest extends TestCase
         $this->assertEquals(true, OperatorMapper::isSupported('is_not_null'));
     }
 
-    public function testIsSupportedInvalid()
+    public function testIsSupportedInvalid(): void
     {
         $this->assertEquals(false, OperatorMapper::isSupported('pish pish ololo, i am driver nlo'));
         $this->assertEquals(false, OperatorMapper::isSupported('EQ'));
